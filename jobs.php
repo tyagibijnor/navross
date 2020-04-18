@@ -179,16 +179,18 @@
                         </div>
 
                     </div>
+<div class="table-responsive">
+					<table class="table table-striped intro-tble" id="jobTable" data-page-length="25">
+                  <!--  <div class="table-responsive table table-hover table-striped">
+                        
 
-                    <div class="table-responsive table table-hover table-striped">
-
-                        <table id="jobTable">
+                        <table id="jobTable"> -->
 
                             <thead>
 
                                 <tr>
 
-                                    <th style="white-space:nowrap;"> Sn. </th>
+                                    <th style="white-space:nowrap;">  </th>
 
                                     <th style="white-space:nowrap;">Job No.</th>
 
@@ -286,33 +288,54 @@
 
     <script type="text/javascript" charset="utf8" src="assets/jquery-dataTableMin.js"></script> -->
 
-    <script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.2.min.js"></script>
+<!--    <script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.2.min.js"></script> -->
 
-    <script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
+    <!--<script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script> -->
 
     <!--<script type="text/javascript" src="/assets/js/jquery.dataTables.min.js"> </script> -->
-
-    <script>
-
-        $(function() {
-
-            $("#jobTable").dataTable();
-
-        })
-
-    </script>
-
-
-
-    <!--<script src="assets/js/vendor.js"></script>-->
-
-    <script src="assets/js/app.js"></script>
+    
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/material-bootstrap.min.js"></script>
+	<script src="assets/js/app.js"></script>
+	<script src="assets/js/custom.js"></script>
+	<script src="assets/js/tagmanager.min.js"></script>  
+	<script src="assets/js/bootstrap3-typeahead.min.js"></script>
+	<script src="assets/js/jquery.dataTables.min.js"></script>  
+	<script src="assets/js/dataTables.bootstrap4.min.js"></script>  
+	<script src="assets/js/pushbar.min.js"></script>
+         <!--<script src="assets/js/vendor.js"></script>-->
+        <script src="assets/js/app.js"></script>
 
     <script src="assets/js/material-bootstrap.min.js"></script>
 
 
 
     <script src="assets/js/custom.js"></script>
+
+
+
+  <script>
+/*
+        $(function() {
+
+            $("#jobTable").dataTable();
+
+        });
+        */
+        $(function() {
+			new Pushbar({ blur: true, overlay: true });
+			$('#jobTable').dataTable();
+		});
+		$('#jobTable').dataTable({
+		"bLengthChange": false,
+                //"bFilter": true,
+                //"bInfo": false,
+                "bAutoWidth": false
+		});
+
+    </script>
+
+
 
 
 
