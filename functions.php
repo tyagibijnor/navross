@@ -311,7 +311,7 @@ function viewCustomerbyId($id)
 // MySql Connection using Config variable
 function dbCon()
 {
-    include('config.php');
+    include_once('config.php');
     $conn = new mysqli(DBHOST, DBUSER, DBPASS, DBNAME) or die("Connect failed: %s\n" . $conn->error);
     return $conn;
 }
