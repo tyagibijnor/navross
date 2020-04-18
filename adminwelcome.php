@@ -70,17 +70,6 @@
 			<div class="content-wrapper">
 				<div class="row">
 					<div class="col-md-4 stretch-card grid-margin">
-						<div class="card bg-gradient-danger card-img-holder text-white">
-							<div class="card-body" style="cursor: pointer;" onclick="window.location='#';">
-								<img src="assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
-								<h2 class="font-weight-bold mb-3">Customer<i class="mdi mdi-chart-line mdi-24px float-right"></i>
-								</h2>
-								<h2 class="mb-5"><?php echo getCount('customers'); ?></h2>
-								<h6 class="card-text"></h6>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4 stretch-card grid-margin">
 						<div class="card bg-gradient-info card-img-holder text-white">
 							<div class="card-body" style="cursor: pointer;" onclick="window.location='jobs.php';">
 								<img src="assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
