@@ -20,7 +20,7 @@
 
 <body>
 	<?php
-
+error_reporting(0);
 
 	?>
 	<div class="container center_div login-page">

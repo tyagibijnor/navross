@@ -39,7 +39,7 @@
 <body>
 
     <?php
-
+error_reporting(0);
     session_start();
 
     include("functions.php");
@@ -47,8 +47,12 @@
     if ($_SESSION['82j2ud2891166sid']) {
 
         $username = $_SESSION['82j2ud2891166sdispname'];
-
-        $jobs = getDashbordData();
+       if($_SESSION['resultbyidjobsdata'] && $_GET['j']=='2') {
+           $jobs = $_SESSION['resultbyidjobsdata'];
+       }
+       else {
+           unset($_SESSION['resultbyidjobsdata']);
+       $jobs = getDashbordData(NULL,NULL); }
 
         $status = array_unique(array_column($jobs, 'status'));
 
@@ -118,11 +122,9 @@
 
                         </a>
 
-                        <a class="navbar-icon waves-effect waves-light" href="javascript:;">
-
-                            <i class="fa fa-sign-out" aria-hidden="true"></i>
-
-                        </a>
+                       <a class="navbar-icon waves-effect waves-light" href="logout.php">
+							<i class="fa fa-sign-out" aria-hidden="true"></i>
+						</a>
 
                     </div>
 
@@ -142,8 +144,8 @@
 
                             <label class="mr-2">Sitename : </label>
 
-                                <select id='column4_search' class='form-control'>
-
+                                <select id='column1_search' class='form-control'>
+<option value=''>All</option>
                                     <?php foreach($sitename as $key=>$value){ ?>
 
                                         <option value='<?php echo $value; ?>'><?php echo $value; ?></option>    
@@ -162,7 +164,7 @@
 
                                 <label class="mr-2">Status : </label>
 
-                                <select id='column4_search' class='form-control'>
+                                <select id='column2_search' class='form-control'>
 
                                     <option value=''>All</option>
 
@@ -180,7 +182,7 @@
 
                     </div>
 <div class="table-responsive">
-					<table class="table table-striped intro-tble" id="jobTable" data-page-length="25">
+<table class="table table-striped intro-tble" id="jobTable" data-page-length="25">
                   <!--  <div class="table-responsive table table-hover table-striped">
                         
 
@@ -221,7 +223,7 @@
                                     $cidno = $jobs[$i]['cidno'];
 
                                     $jobid = $jobs[$i]['jobid']; ?>
-
+                                <tr>
                                     <td nowrap>
 
                                         <a href="viewjobs.php?jid=<?php echo $jobid; ?>">
@@ -283,18 +285,7 @@
         <p>Copyright © Cavendish Park 2020. All Rights reserved</p>
 
     </footer>
-
-    <!--<script type="text/javascript" charset="utf8" src="assets/js/jquery182.min.js"></script>
-
-    <script type="text/javascript" charset="utf8" src="assets/jquery-dataTableMin.js"></script> -->
-
-<!--    <script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.2.min.js"></script> -->
-
-    <!--<script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script> -->
-
-    <!--<script type="text/javascript" src="/assets/js/jquery.dataTables.min.js"> </script> -->
-    
-	<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/jquery.min.js"></script>
 	<script src="assets/js/material-bootstrap.min.js"></script>
 	<script src="assets/js/app.js"></script>
 	<script src="assets/js/custom.js"></script>
@@ -312,28 +303,53 @@
 
     <script src="assets/js/custom.js"></script>
 
-
+<script>
+    // execute/clear BS loaders for docs
+    $(function(){while(window.BS&&window.BS.loader&&window.BS.loader.length){(window.BS.loader.pop())()}})
+  </script>
+    
 
   <script>
-/*
-        $(function() {
-
-            $("#jobTable").dataTable();
-
-        });
-        */
-        $(function() {
-			new Pushbar({ blur: true, overlay: true });
-			$('#jobTable').dataTable();
-		});
-		$('#jobTable').dataTable({
-		"bLengthChange": false,
-                //"bFilter": true,
-                //"bInfo": false,
-                "bAutoWidth": false
-		});
-
     </script>
+    
+    <script>
+    $(document).ready(function() {
+			new Pushbar({ blur: true, overlay: true });
+			var dataSrc = [];
+			var table = $('#jobTable').dataTable({
+				 "bLengthChange": false,
+                                //"bFilter": true,
+                                //"bInfo": false,
+                                "bAutoWidth": false,
+				'initComplete': function(){
+					var api = this.api();
+						// Populate a dataset for autocomplete functionality
+						// using data from first, second and third columns
+						api.cells('tr', [1]).every(function(){
+							// Get cell data as plain text
+							var data = $('<div>').html(this.data()).text();           
+							if(dataSrc.indexOf(data) === -1){ dataSrc.push(data); }
+						});
+						// Sort dataset alphabetically
+						dataSrc.sort();
+					// Initialize Typeahead plug-in
+					$('input[type="search"]', api.table().container()).typeahead({
+						source: dataSrc,
+						afterSelect: function(value){
+							api.search(value).draw();
+						}
+					});
+				}
+			});
+			$('#column1_search').on( 'change', function () {
+				table.api().columns( 3 ).search( this.value ).draw();
+			});
+			$('#column2_search').on( 'change', function () {
+				table.api().columns( 8 ).search( this.value ).draw();
+			});
+			
+		});
+	  </script>
 
 
 

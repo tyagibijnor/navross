@@ -1,4 +1,5 @@
 <?PHP
+error_reporting(0);
 function getUserIpAddr()
 {
     if (!empty($_SERVER['HTTP_CLIENT_IP'])) {

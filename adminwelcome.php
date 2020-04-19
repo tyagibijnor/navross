@@ -21,8 +21,9 @@
         }
     </style>
 </head>
-<body style="overflow:hidden;" }>
+<body style="overflow:hidden;" } >
 	<?php
+        error_reporting(0);
 	session_start();
 	include("functions.php");
 	if ($_SESSION['82j2ud2891166sid']) {
