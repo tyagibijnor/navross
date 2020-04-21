@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 
@@ -185,7 +184,6 @@ error_reporting(0);
 <table class="table table-striped intro-tble" id="jobTable" data-page-length="25">
                   <!--  <div class="table-responsive table table-hover table-striped">
                         
-
                         <table id="jobTable"> -->
 
                             <thead>

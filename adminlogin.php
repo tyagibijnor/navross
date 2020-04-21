@@ -83,5 +83,3 @@ error_reporting(0);
 	</script>
 
 </body>
-
-</html>
