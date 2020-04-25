@@ -43,4 +43,19 @@ if( isset($_GET['im']) && isset($_GET['iy']) )  {
         ); 
         echo json_encode($responseInvoice);       
     }
+
+    if( isset($_GET['fd']) && isset($_GET['ld']) )  {
+        ///session_start();
+        //unset($_SESSION['resultbyidjobsdata']);
+        $data = getJobsDataByDate($_GET['fd'],$_GET['ld']);
+        if($data) {
+          //$_SESSION['resultbyidjobsdata'] = $data; 
+          echo json_encode($data);
+         }
+        else {
+            //unset($_SESSION['resultbyidjobsdata']);
+            //echo "no data";
+        }
+        
+     }
 ?>

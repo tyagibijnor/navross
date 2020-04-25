@@ -22,12 +22,13 @@
     include("functions.php");
     if ($_SESSION['82j2ud2891166sid']) {
         $username = $_SESSION['82j2ud2891166sdispname'];
-       if($_SESSION['resultbyidinvoicedata'] && $_GET['4a4f5sda4f5as7f8er5fds']=='f45454fsda4f') {
-           $invoiceData = $_SESSION['resultbyidinvoicedata'];
-           unset($_SESSION['resultbyidinvoicedata']);
+       if($_GET['imonth'] && $_GET['iyear']) {
+           //$invoiceData = $_SESSION['resultbyidinvoicedata'];
+           $invoiceData = getInvoiceData($_GET['imonth'],$_GET['iyear']);  
+           //unset($_SESSION['resultbyidinvoicedata']);
           }
        else {
-           unset($_SESSION['resultbyidinvoicedata']);
+           //unset($_SESSION['resultbyidinvoicedata']);
             $invoiceData = getInvoiceData(NULL,NULL);       
           
        }

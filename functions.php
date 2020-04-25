@@ -267,7 +267,23 @@ function getDashbordData($mnth,$year) {
     LEFT JOIN customers b ON a.`cidno` = b.`cidno` 
     LEFT JOIN sites s ON a.`siteid` = s.`siteid`
     LEFT JOIN jobnotes j ON a.`jobid` = j.joblink
-    LEFT JOIN invoices c ON a.`jobid` = c.`joblink`";  }
+    LEFT JOIN invoices c ON a.`jobid` = c.`joblink` where a.dtcr >= '".$_SESSION['cd']."'";  }
+    $result = mysqli_query($mysqllink, $sql);
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $data[] = $row;
+        } return $data; }
+    else{ return false;}    
+}
+
+function getJobsDataByDate($fd,$ld){
+    $mysqllink = dbCon();
+    $sql = "SELECT a.*,b.*,c.*,s.siteaddress AS siadd,j.notes AS lnote FROM jobs  a 
+    LEFT JOIN customers b ON a.`cidno` = b.`cidno` 
+    LEFT JOIN sites s ON a.`siteid` = s.`siteid`
+    LEFT JOIN jobnotes j ON a.`jobid` = j.joblink
+    LEFT JOIN invoices c ON a.`jobid` = c.`joblink` where a.dtcr >= '$fd' and a.dtcr < '$ld'";
+    //echo $sql;
     $result = mysqli_query($mysqllink, $sql);
     if (mysqli_num_rows($result) > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
@@ -474,7 +490,8 @@ function getIpCount($ip)
 function getCount($param)
 {
     $con = dbCon();
-    $sql = "SELECT * from " . $param . "";
+    if($param=='invoices') {  $sql = "SELECT * from invoices where date >='".$_SESSION['cd']."'"; }
+    if($param=='jobs') {  $sql = "SELECT * from jobs where dtcr >='".$_SESSION['cd']."'"; }
     $result = mysqli_query($con, $sql);
     $count = mysqli_num_rows($result);
     return $count;
@@ -502,9 +519,10 @@ function getJobStatus($status,$fdt,$ldt)
          else { return false; }
         }
     if ($status == 1) {
-        $sql = "SELECT * from jobs where finjob IS NOT NULL";
+        
+        $sql = "SELECT * from jobs where dtcr >= '".$_SESSION['cd']."' and finjob IS NOT NULL";
     } else {
-        $sql = "SELECT * from jobs where finjob IS NULL";
+        $sql = "SELECT * from jobs where dtcr >= '".$_SESSION['cd']."' and finjob IS NULL";
     }
     $result = mysqli_query($con, $sql);
     $count = mysqli_num_rows($result);
@@ -514,7 +532,7 @@ function getJobStatus($status,$fdt,$ldt)
 
 function getInvoiceTotal()
 {
-    $sql = "SELECT SUM(tot) AS total FROM invoices";
+    $sql = "SELECT SUM(tot) AS total FROM invoices where date >='".$_SESSION['cd']."'";
     $amount = getResult($sql);
     return $amount[0]['total'];
 }
@@ -523,7 +541,8 @@ function getJobsView()
 {
     /*$SQL = "SELECT s.siteaddress,j.jobid,j.worksid,j.dtcr,j.status,jn.notes FROM jobs j 
             left JOIN sites s ON j.siteid=s.siteid left JOIN jobnotes jn ON j.jobid=jn.joblink"; */
-    $SQL = "SELECT s.*,j.*,jn.* FROM jobs j left JOIN sites s ON j.siteid=s.siteid left JOIN jobnotes jn ON j.jobid=jn.joblink";
+    $SQL = "SELECT s.*,j.*,jn.* FROM jobs j left JOIN sites s ON j.siteid=s.siteid 
+    left JOIN jobnotes jn ON j.jobid=jn.joblink where j.dtcr >= '".$_SESSION['cd']."'";
     $data = getResult($SQL);
     return $data;
 }
@@ -556,7 +575,7 @@ function getInvoiceData($mnth,$year) {
             $ldt = $year."-".$mnth."-".$dayJob;
             $sql="SELECT * FROM invoices WHERE date >='$fdt' AND date <= '$ldt'";
             } else {
-     $sql = "SELECT * FROM invoices";  }
+     $sql = "SELECT * FROM invoices where date >= '".$_SESSION['cd']."'";  }
      $result = mysqli_query($mysqllink, $sql);
     if (mysqli_num_rows($result) > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
@@ -585,8 +604,9 @@ function getInvoiceAmount($mnth,$year)
     $dayJob = cal_days_in_month(CAL_GREGORIAN, $mnth, $year);
     $fdt = $year."-".$mnth."-01";
     $ldt = $year."-".$mnth."-".$dayJob;
-    if( isset($fdt) && isset($ldt) ) { $sql = "SELECT SUM(tot) AS total FROM invoices WHERE date >='".$fdt."' and date <='".$ldt."'"; }
-    else{  $sql = "SELECT SUM(tot) AS total FROM invoices"; }
+    if( isset($fdt) && isset($ldt) ) { 
+        $sql = "SELECT SUM(tot) AS total FROM invoices WHERE date >='".$fdt."' and date <='".$ldt."'"; }
+    else{  $sql = "SELECT SUM(tot) AS total FROM invoices where date >= '".$_SESSION['cd']."'"; }
     //echo $sql;
     $amount = getResult($sql);
     return $amount[0]['total'];
