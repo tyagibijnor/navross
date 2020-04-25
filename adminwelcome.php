@@ -94,8 +94,7 @@
                                         <h2 class="font-weight-bold mb-3 " >
                                             <i class="mdi mdi-bookmark-outline mdi-24px float-right"></i>
                                         </h2>
-                                        <button type="button" class="h2 btn-link font-weight-bold mb-5 widgetLink jobsWidgetBtn" 
-                                        onclick="sendQueryForJob();">
+                                        <button type="button" class="h2 btn-link font-weight-bold mb-5 widgetLink jobsWidgetBtn" onclick="window.location = 'jobs.php?j=2';">
                                                 <?php echo "Jobs : "; ?>
                                             <span id="totaljobscount"><?php echo $c; ?></span>
                                         </button>
@@ -138,7 +137,7 @@
                                             <i class="mdi mdi-bookmark-outline mdi-24px float-right"></i>
                                         </h2>
                                         <h2 class="font-weight-bold mb-5 widgetLink" style="cursor: pointer;" 
-                                            onclick="sendQueryForInvoice();">
+                                            onclick="window.location = 'invoice.php?4a4f5sda4f5as7f8er5fds=f45454fsda4f';">
                                                 <?php echo "Invoices : "; ?>
                                             <span id="invoiceCount"><?php echo getCount('invoices'); ?></span>
                                         </h2>
@@ -207,23 +206,13 @@
                 }});
             });
         
-    </script>
-    <script type="text/javascript">
-        function sendQueryForJob(){
-            var jmonth = document.getElementById('jmonth').value;
-            var jyear = document.getElementById('jyear').value;
-            if( jmonth !=='' && jyear !=='') {
-                window.location = 'jobs.php?jmonth='+jmonth+'&jyear='+jyear;
-           }
-        }
 
-        function sendQueryForInvoice(){
-            var imonth = document.getElementById('imonth').value;
-            var iyear = document.getElementById('iyear').value;
-            if( imonth !=='' && iyear !=='') {
-                window.location = 'invoice.php?imonth='+imonth+'&iyear='+iyear;
-           }
-        }
+        /*$('#totaljobscount').on('DOMSubtreeModified', function () {
+            var sp = document.getElementById('totaljobscount').innerHTML;
+            if (sp === '0 record') {
+                $(".widgetLink").removeAttr("onclick");
+            }
+        });*/
     </script>
 </body>
 </html>

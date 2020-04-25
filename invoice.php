@@ -14,6 +14,12 @@
     <link href="assets/css/customstyle.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css">
     <!--<link rel="stylesheet" type="text/css" href="assets/css/jquerydatatbl.css">-->
+	<style>
+      .table td, .table th {
+    padding: .75rem !important;
+    border-top: 1px solid #dee2e6 !important;
+}
+</style>
 </head>
 <body>
     <?php
@@ -22,13 +28,12 @@
     include("functions.php");
     if ($_SESSION['82j2ud2891166sid']) {
         $username = $_SESSION['82j2ud2891166sdispname'];
-       if($_GET['imonth'] && $_GET['iyear']) {
-           //$invoiceData = $_SESSION['resultbyidinvoicedata'];
-           $invoiceData = getInvoiceData($_GET['imonth'],$_GET['iyear']);  
-           //unset($_SESSION['resultbyidinvoicedata']);
+       if($_SESSION['resultbyidinvoicedata'] && $_GET['4a4f5sda4f5as7f8er5fds']=='f45454fsda4f') {
+           $invoiceData = $_SESSION['resultbyidinvoicedata'];
+           unset($_SESSION['resultbyidinvoicedata']);
           }
        else {
-           //unset($_SESSION['resultbyidinvoicedata']);
+           unset($_SESSION['resultbyidinvoicedata']);
             $invoiceData = getInvoiceData(NULL,NULL);       
           
        }

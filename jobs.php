@@ -14,9 +14,9 @@
       
       <link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css">
       <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-      <link href="assets/css/customstyle.css" rel="stylesheet"> <!-- swaping position for calender -->
       <!--<link rel="stylesheet" type="text/css" href="assets/css/jquerydatatbl.css">-->
-    <style>
+	  <link href="assets/css/customstyle.css" rel="stylesheet"> <!-- moving position for calender -->
+	  <style>
       .table td, .table th {
     padding: .75rem !important;
     border-top: 1px solid #dee2e6 !important;
@@ -26,20 +26,27 @@
    <body>
       <?php
          error_reporting(0);
-             session_start();         
-             include("functions.php");         
-             if ($_SESSION['82j2ud2891166sid']) {         
+             session_start();
+         
+             include("functions.php");
+         
+             if ($_SESSION['82j2ud2891166sid']) {
+         
                  $username = $_SESSION['82j2ud2891166sdispname'];
-                if($_GET['jmonth'] && $_GET['jyear']) {
-                $jobs = getDashbordData($_GET['jmonth'],$_GET['jyear']);
+                if($_SESSION['resultbyidjobsdata'] && $_GET['j']=='2') {
+                    $jobs = $_SESSION['resultbyidjobsdata'];
                 }
                 else {
-                    $jobs = getDashbordData(NULL,NULL); }
-                    $status = array_unique(array_column($jobs, 'status'));
-                  sort($status);
-                  $sitename = array_unique(array_column($jobs, 'sitename'));
+                    unset($_SESSION['resultbyidjobsdata']);
+                $jobs = getDashbordData(NULL,NULL); }
          
-            sort($sitename);
+                 $status = array_unique(array_column($jobs, 'status'));
+         
+         		sort($status);
+         
+                 $sitename = array_unique(array_column($jobs, 'sitename'));
+         
+         		sort($sitename);
          
                  $jobdata = getJobsView();
          
@@ -227,25 +234,27 @@
          var dataSrc = [];
          var table = $('#jobTable').dataTable({
           "bLengthChange": false,
-          "bAutoWidth": false,
+                                     //"bFilter": true,
+                                     //"bInfo": false,
+                                     "bAutoWidth": false,
          'initComplete': function(){
-          var api = this.api();
-            // Populate a dataset for autocomplete functionality
-            // using data from first, second and third columns
-            api.cells('tr', [1]).every(function(){
-              // Get cell data as plain text
-              var data = $('<div>').html(this.data()).text();           
-              if(dataSrc.indexOf(data) === -1){ dataSrc.push(data); }
-            });
-            // Sort dataset alphabetically
-            dataSrc.sort();
-          // Initialize Typeahead plug-in
-          $('input[type="search"]', api.table().container()).typeahead({
-            source: dataSrc,
-            afterSelect: function(value){
-              api.search(value).draw();
-            }
-          });
+         	var api = this.api();
+         		// Populate a dataset for autocomplete functionality
+         		// using data from first, second and third columns
+         		api.cells('tr', [1]).every(function(){
+         			// Get cell data as plain text
+         			var data = $('<div>').html(this.data()).text();           
+         			if(dataSrc.indexOf(data) === -1){ dataSrc.push(data); }
+         		});
+         		// Sort dataset alphabetically
+         		dataSrc.sort();
+         	// Initialize Typeahead plug-in
+         	$('input[type="search"]', api.table().container()).typeahead({
+         		source: dataSrc,
+         		afterSelect: function(value){
+         			api.search(value).draw();
+         		}
+         	});
          }
          });
          $('#column1_search').on( 'change', function () {
@@ -262,7 +271,7 @@
       <script type="text/javascript">
          $(function(){
              $('.custumdate').datepicker({
-                 //inline: true,
+                 inline: true,
                  //nextText: '&rarr;',
                  //prevText: '&larr;',
                  showOtherMonths: true,
@@ -271,34 +280,8 @@
                  //showOn: "button",
                  //buttonImage: "img/calendar-blue.png",
                  //buttonImageOnly: true,
-                 onSelect: function() {
-                 var f = $('#startdate').val();
-                 var l = $('#enddate').val();
-                 if( f !== '' && l !== '' ) { 
-                  $.ajax({
-                    type: "GET",
-                    url: "result.php",
-                    data: { fd: f, ld: l },
-                    success: function (result) {
-                      console.log(result);
-                     $('#jobTable').dataTable().fnDestroy();
-                                                                                        
-                }});
-                    
-               }
-
-       }
              });
          });
-
-     
-      </script>
-
-      <script type="text/javascript">
-        
-        function drawJobsTable(){
-
-        }
       </script>
    </body>
 </html>
